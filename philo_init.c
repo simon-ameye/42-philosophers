@@ -6,42 +6,114 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/08 12:32:24 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/14 00:06:09 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//void mutexputstr()
-
-void *philo(void *philo_data)
+void *philo(void *philovoid)
 {
-	(void)philo_data;
-	ft_putstr("AZERTYUIOPazertyuiop ", philo_data);
+	t_philo *philo;
+
+	philo = (t_philo *)philovoid;
+	if (philo->index % 2 == 0)
+		ft_usleep(philo->data->titeat / 10);
+
+	while (1)
+	{
+		if (philo->data->philodead)
+			return (NULL);
+		ft_print_data(philo, "is thinking");
+		pthread_mutex_lock(philo->lfork);
+		if (philo->data->philodead)
+			return (NULL);
+		ft_print_data(philo, "has taken a fork");
+		pthread_mutex_lock(philo->rfork);
+		if (philo->data->philodead)
+			return (NULL);
+		ft_print_data(philo, "has taken a fork");
+		if (philo->data->philodead)
+			return (NULL);
+		ft_print_data(philo, "is eating");
+		ft_usleep(philo->data->titeat);
+		philo->lasteat = ft_gettime();
+		pthread_mutex_unlock(philo->rfork);
+		pthread_mutex_unlock(philo->rfork);
+		if (philo->data->philodead)
+			return (NULL);
+		ft_print_data(philo, "is sleeping");
+		ft_usleep(philo->data->titsle);
+	}
 	return (NULL);
 }
 
-int init_philos(t_data *philo_data)
+void *ft_deathcheck(void *philosvoid)
+{
+	t_philo *philos;
+	int i;
+	int nophil;
+	int titdie;
+
+	philos = (t_philo *)philosvoid;
+	nophil = philos[1].data->nophil;
+	titdie = philos[1].data->titdie;
+	i = 1;
+	while (1)
+	{
+		if (ft_gettime() - (philos[i]).lasteat  > titdie)
+		{
+			ft_print_data(&(philos[i]), "died");
+			philos[1].data->philodead = 1;
+			return (NULL);
+		}
+		if (i == nophil)
+			i = 1;
+		else;
+			i++;
+	}
+	return (NULL);
+}
+
+int init_philos(t_data *data)
 {
 	int i;
+	t_philo *philos;
+	pthread_t deaththread;
 
-	pthread_mutex_init(&philo_data->strmutex, NULL);
-	philo_data->philos = malloc(sizeof(t_philo) * philo_data->nophil);
-		if (philo_data->philos == NULL)
+	data->starti = ft_gettime();
+	data->philodead = 0;
+	pthread_mutex_init(&data->printmutex, NULL);
+	philos = malloc(sizeof(t_philo) * data->nophil);
+		if (philos == NULL)
 			return (EXIT_FAILURE);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nophil);
+		if (data->forks == NULL)
+			return (EXIT_FAILURE);
+	
 	i = 1;
-	while (i <= philo_data->nophil)
+	while (i <= data->nophil)
 	{
-		philo_data->philos[i].fork = 0;
-		philo_data->philos[i].index = i;
-		pthread_create(&(philo_data->philos[i].thread), NULL, philo, philo_data);
+		philos[i].data = data;
+		
+		philos[i].lfork = &(data->forks[i]);
+		if (i == data->nophil)
+			philos[i].rfork = &(data->forks[0]);
+		else
+			philos[i].rfork = &(data->forks[i + 1]);
+		
+		philos[i].index = i;
+		philos[i].lasteat = data->starti;
+		pthread_create(&(philos[i].thread), NULL, philo, (&(philos[i])));
 		i++;
 	}
+	pthread_create(&deaththread, NULL, ft_deathcheck, philos);
 	i = 1;
-	while (i <= philo_data->nophil)
+	while (i <= data->nophil)
 	{
-		pthread_join((philo_data->philos[i].thread), NULL);
+		pthread_join((philos[i].thread), NULL);
 		i++;
 	}
+	pthread_join(deaththread, NULL);
 	return (EXIT_SUCCESS);
 }

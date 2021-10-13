@@ -6,27 +6,11 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/08 12:20:39 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/13 22:19:22 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void ft_putstr(char *s, t_data *philo_data)
-{
-	int i;
-
-	if (s == NULL)
-		return ;
-	pthread_mutex_lock(&philo_data->strmutex);
-	i = 0;
-	while (s[i])
-	{
-		write(1, &s[i], 1);
-		i++;
-	}
-	pthread_mutex_unlock(&philo_data->strmutex);
-}
 
 int	ft_atoi(const char *nptr)
 {
@@ -56,17 +40,45 @@ int	ft_atoi(const char *nptr)
 
 void ft_usleep(long int pause)
 {
-	struct timeval time;
 	long int start_time;
 	long int current_time;
 
-	gettimeofday(&time, NULL);
-	start_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	start_time = ft_gettime();
 	current_time = start_time;
 	while (current_time - start_time < pause)
 	{
-		gettimeofday(&time, NULL);
-		current_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+		current_time = ft_gettime();
 		usleep(pause / 10);
 	}
+}
+
+long int ft_gettime(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000) + (time.tv_usec / 1000);
+}
+
+void ft_printtime(t_data *data)
+{
+	long int actual_time;
+	long int elapsed_time;
+
+	actual_time = ft_gettime();
+	elapsed_time = actual_time - data->starti;
+	ft_putnum(elapsed_time);
+}
+
+
+void ft_print_data(t_philo *philo, char *str)
+{
+	pthread_mutex_lock(&(philo->data->printmutex));
+	ft_printtime(philo->data);
+	ft_putstr(" ");
+	ft_putnum(philo->index);
+	ft_putstr(" ");
+	ft_putstr(str);
+	ft_putstr("\n");
+	pthread_mutex_unlock(&(philo->data->printmutex));
 }

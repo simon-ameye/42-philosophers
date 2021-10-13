@@ -5,6 +5,7 @@ SRCS += philo.c
 SRCS += philo_utils1.c
 SRCS += philo_data.c
 SRCS += philo_init.c
+SRCS += philo_utils2.c
 
 OBJS_DIR = obj/
 OBJS = $(addprefix $(OBJS_DIR),$(SRCS:.c=.o))
