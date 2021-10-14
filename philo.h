@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/13 23:57:42 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/14 17:24:13 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_data
 	int				titeat;
 	int				titsle;
 	int				noeats;
+	int				noeatsspecified;
 	long int		starti;
 	int				philodead;
 	pthread_mutex_t	printmutex;
@@ -41,6 +42,7 @@ typedef struct s_philo
 	int				index;
 	t_data			*data;
 	long int		lasteat;
+	int				nbeats;
 }	t_philo;
 
 int	ft_atoi(const char *nptr);
@@ -54,5 +56,9 @@ void ft_printtime(t_data *data);
 void ft_sleep(t_philo *philo);
 void ft_print_data(t_philo *philo, char *str);
 long int ft_gettime(void);
+void *ft_deathcheck(void *philosvoid);
+void *philo(void *philovoid);
+
+
 
 #endif

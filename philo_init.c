@@ -6,74 +6,11 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/14 00:06:09 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/14 15:33:37 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void *philo(void *philovoid)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)philovoid;
-	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->titeat / 10);
-
-	while (1)
-	{
-		if (philo->data->philodead)
-			return (NULL);
-		ft_print_data(philo, "is thinking");
-		pthread_mutex_lock(philo->lfork);
-		if (philo->data->philodead)
-			return (NULL);
-		ft_print_data(philo, "has taken a fork");
-		pthread_mutex_lock(philo->rfork);
-		if (philo->data->philodead)
-			return (NULL);
-		ft_print_data(philo, "has taken a fork");
-		if (philo->data->philodead)
-			return (NULL);
-		ft_print_data(philo, "is eating");
-		ft_usleep(philo->data->titeat);
-		philo->lasteat = ft_gettime();
-		pthread_mutex_unlock(philo->rfork);
-		pthread_mutex_unlock(philo->rfork);
-		if (philo->data->philodead)
-			return (NULL);
-		ft_print_data(philo, "is sleeping");
-		ft_usleep(philo->data->titsle);
-	}
-	return (NULL);
-}
-
-void *ft_deathcheck(void *philosvoid)
-{
-	t_philo *philos;
-	int i;
-	int nophil;
-	int titdie;
-
-	philos = (t_philo *)philosvoid;
-	nophil = philos[1].data->nophil;
-	titdie = philos[1].data->titdie;
-	i = 1;
-	while (1)
-	{
-		if (ft_gettime() - (philos[i]).lasteat  > titdie)
-		{
-			ft_print_data(&(philos[i]), "died");
-			philos[1].data->philodead = 1;
-			return (NULL);
-		}
-		if (i == nophil)
-			i = 1;
-		else;
-			i++;
-	}
-	return (NULL);
-}
 
 int init_philos(t_data *data)
 {
@@ -98,10 +35,10 @@ int init_philos(t_data *data)
 		
 		philos[i].lfork = &(data->forks[i]);
 		if (i == data->nophil)
-			philos[i].rfork = &(data->forks[0]);
+			philos[i].rfork = &(data->forks[1]);
 		else
 			philos[i].rfork = &(data->forks[i + 1]);
-		
+		pthread_mutex_init(&(data->forks[i]), NULL);
 		philos[i].index = i;
 		philos[i].lasteat = data->starti;
 		pthread_create(&(philos[i].thread), NULL, philo, (&(philos[i])));
