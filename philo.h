@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/14 17:24:13 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:21:54 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_data
 	int				noeats;
 	int				noeatsspecified;
 	long int		starti;
-	int				philodead;
+	int				philostop;
 	pthread_mutex_t	printmutex;
 	pthread_mutex_t	*forks;
 }	t_data;

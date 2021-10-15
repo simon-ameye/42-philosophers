@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/14 15:33:37 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:31:52 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int init_philos(t_data *data)
 	pthread_t deaththread;
 
 	data->starti = ft_gettime();
-	data->philodead = 0;
+	data->philostop = 0;
 	pthread_mutex_init(&data->printmutex, NULL);
 	philos = malloc(sizeof(t_philo) * data->nophil);
 		if (philos == NULL)
@@ -52,5 +52,7 @@ int init_philos(t_data *data)
 		i++;
 	}
 	pthread_join(deaththread, NULL);
+	free (philos);
+	free (data->forks);
 	return (EXIT_SUCCESS);
 }

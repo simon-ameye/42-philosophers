@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/14 17:30:10 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/15 11:28:47 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void *philo(void *philovoid)
 
 	while (1)
 	{
-		if (philo->data->philodead)
+		if (philo->data->philostop)
 			return (NULL);
 		ft_print_data(philo, "is thinking");
 		pthread_mutex_lock(philo->lfork);
-		if (philo->data->philodead)
+		if (philo->data->philostop)
 			return (NULL);
 		ft_print_data(philo, "has taken a fork");
 		pthread_mutex_lock(philo->rfork);
-		if (philo->data->philodead)
+		if (philo->data->philostop)
 			return (NULL);
 		ft_print_data(philo, "has taken a fork");
-		if (philo->data->philodead)
+		if (philo->data->philostop)
 			return (NULL);
 		ft_print_data(philo, "is eating");
 		ft_usleep(philo->data->titeat);
@@ -41,7 +41,7 @@ void *philo(void *philovoid)
 		pthread_mutex_unlock(philo->rfork);
 		pthread_mutex_unlock(philo->lfork);
 		(philo->nbeats)++;
-		if (philo->data->philodead)
+		if (philo->data->philostop)
 			return (NULL);
 		ft_print_data(philo, "is sleeping");
 		ft_usleep(philo->data->titsle);
@@ -55,26 +55,36 @@ void *ft_deathcheck(void *philosvoid)
 	int i;
 	int nophil;
 	int titdie;
+	int eatsreached;
 
 	philos = (t_philo *)philosvoid;
 	nophil = philos[1].data->nophil;
 	titdie = philos[1].data->titdie;
 	i = 1;
+	eatsreached = 1;
 	while (1)
 	{
+		
 		if (ft_gettime() - (philos[i]).lasteat  > titdie)
 		{
 			ft_print_data(&(philos[i]), "died");
-			philos[1].data->philodead = 1;
+			philos[1].data->philostop = 1;
 			return (NULL);
 		}
-		if (philos[i].data->noeatsspecified && philos[i].nbeats >= philos[i].data->noeats)
+		if (philos[i].data->noeatsspecified == 0 || philos[i].nbeats < philos[i].data->noeats)
 		{
-			philos[1].data->philodead = 1; //ADD THE NUMBER OF EATS FOR EACH MUST HAVE EATEN
-			return (NULL);
+			eatsreached = 0;
 		}
 		if (i == nophil)
+		{
+			if (eatsreached == 1)
+			{
+				philos[1].data->philostop = 1;
+				return (NULL);
+			}
 			i = 1;
+			eatsreached = 1;
+		}
 		else
 			i++;
 	}
