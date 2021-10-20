@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/13 22:19:22 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/20 10:19:58 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ void ft_printtime(t_data *data)
 }
 
 
-void ft_print_data(t_philo *philo, char *str)
+void ft_print_data(t_philo *philo, char *str, int bypass)
 {
+	if (philo->data->philostop == 1 && bypass == 0)
+		return ;
 	pthread_mutex_lock(&(philo->data->printmutex));
 	ft_printtime(philo->data);
 	ft_putstr(" ");

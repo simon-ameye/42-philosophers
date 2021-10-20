@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/15 11:31:52 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/20 12:42:20 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,38 @@ int init_philos(t_data *data)
 		if (data->forks == NULL)
 			return (EXIT_FAILURE);
 	
-	i = 1;
-	while (i <= data->nophil)
+	i = 0;
+	while (i <= data->nophil - 1)
 	{
 		philos[i].data = data;
 		
 		philos[i].lfork = &(data->forks[i]);
 		if (i == data->nophil)
-			philos[i].rfork = &(data->forks[1]);
+			philos[i].rfork = &(data->forks[0]);
 		else
 			philos[i].rfork = &(data->forks[i + 1]);
 		pthread_mutex_init(&(data->forks[i]), NULL);
-		philos[i].index = i;
+		philos[i].index = i + 1;
 		philos[i].lasteat = data->starti;
 		pthread_create(&(philos[i].thread), NULL, philo, (&(philos[i])));
 		i++;
 	}
 	pthread_create(&deaththread, NULL, ft_deathcheck, philos);
-	i = 1;
-	while (i <= data->nophil)
+	
+	i = 0;
+	while (i <= data->nophil - 1)
 	{
 		pthread_join((philos[i].thread), NULL);
 		i++;
 	}
 	pthread_join(deaththread, NULL);
+	i = 0;
+	while (i <= data->nophil - 1)
+	{
+		pthread_mutex_destroy(&(data->forks[i]));
+		i++;
+	}
+	pthread_mutex_destroy(&data->printmutex);
 	free (philos);
 	free (data->forks);
 	return (EXIT_SUCCESS);

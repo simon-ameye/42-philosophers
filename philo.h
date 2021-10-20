@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/15 11:21:54 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/20 10:20:10 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void ft_usleep(long int pause);
 void ft_putnum(long n);
 void ft_printtime(t_data *data);
 void ft_sleep(t_philo *philo);
-void ft_print_data(t_philo *philo, char *str);
+void ft_print_data(t_philo *philo, char *str, int bypass);
 long int ft_gettime(void);
 void *ft_deathcheck(void *philosvoid);
 void *philo(void *philovoid);

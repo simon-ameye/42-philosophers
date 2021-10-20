@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/15 11:28:47 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/20 12:43:27 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,32 @@ void *philo(void *philovoid)
 	if (philo->index % 2 == 0)
 		ft_usleep(philo->data->titeat / 10);
 
-	while (1)
+	while (philo->data->philostop == 0)
 	{
-		if (philo->data->philostop)
-			return (NULL);
-		ft_print_data(philo, "is thinking");
+		ft_print_data(philo, "is thinking", 0);
 		pthread_mutex_lock(philo->lfork);
 		if (philo->data->philostop)
-			return (NULL);
-		ft_print_data(philo, "has taken a fork");
+			break;
+		ft_print_data(philo, "has taken a fork", 0);
 		pthread_mutex_lock(philo->rfork);
 		if (philo->data->philostop)
-			return (NULL);
-		ft_print_data(philo, "has taken a fork");
+			break;
+		ft_print_data(philo, "has taken a fork", 0);
 		if (philo->data->philostop)
-			return (NULL);
-		ft_print_data(philo, "is eating");
+			break;
+		ft_print_data(philo, "is eating", 0);
 		ft_usleep(philo->data->titeat);
 		philo->lasteat = ft_gettime();
 		pthread_mutex_unlock(philo->rfork);
 		pthread_mutex_unlock(philo->lfork);
 		(philo->nbeats)++;
 		if (philo->data->philostop)
-			return (NULL);
-		ft_print_data(philo, "is sleeping");
+			break;
+		ft_print_data(philo, "is sleeping", 0);
 		ft_usleep(philo->data->titsle);
 	}
+	pthread_mutex_unlock(philo->rfork);
+	pthread_mutex_unlock(philo->lfork);
 	return (NULL);
 }
 
@@ -58,31 +58,31 @@ void *ft_deathcheck(void *philosvoid)
 	int eatsreached;
 
 	philos = (t_philo *)philosvoid;
-	nophil = philos[1].data->nophil;
-	titdie = philos[1].data->titdie;
-	i = 1;
+	nophil = philos[0].data->nophil;
+	titdie = philos[0].data->titdie;
+	i = 0;
 	eatsreached = 1;
 	while (1)
 	{
 		
 		if (ft_gettime() - (philos[i]).lasteat  > titdie)
 		{
-			ft_print_data(&(philos[i]), "died");
 			philos[1].data->philostop = 1;
+			ft_print_data(&(philos[i]), "died", 1);
 			return (NULL);
 		}
 		if (philos[i].data->noeatsspecified == 0 || philos[i].nbeats < philos[i].data->noeats)
 		{
 			eatsreached = 0;
 		}
-		if (i == nophil)
+		if (i == nophil - 1)
 		{
 			if (eatsreached == 1)
 			{
-				philos[1].data->philostop = 1;
+				philos[0].data->philostop = 1;
 				return (NULL);
 			}
-			i = 1;
+			i = 0;
 			eatsreached = 1;
 		}
 		else
