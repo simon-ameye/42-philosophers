@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/20 10:20:10 by sameye           ###   ########.fr       */
+/*   Updated: 2021/10/28 17:21:46 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_data
 	int				titeat;
 	int				titsle;
 	int				noeats;
-	int				noeatsspecified;
+	int				noeatss;
 	long int		starti;
 	int				philostop;
 	pthread_mutex_t	printmutex;
@@ -58,6 +58,7 @@ void ft_print_data(t_philo *philo, char *str, int bypass);
 long int ft_gettime(void);
 void *ft_deathcheck(void *philosvoid);
 void *philo(void *philovoid);
+void ft_unlock_forks(t_philo *philo);
 
 
 
