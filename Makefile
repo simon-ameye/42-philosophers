@@ -10,21 +10,19 @@ SRCS += philo_utils3.c
 
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
-
 CC = clang -Wall -Wextra -Werror
 
+all : $(NAME)
 
-all : $(OBJS_DIR)/ $(NAME)
+$(OBJS_DIR)/%.o : %.c $(OBJS_DIR)/
+	@echo "compiling $<"
+	@$(CC) -c $< -o $@
 
 $(OBJS_DIR)/ :
 	$(shell mkdir -p $(OBJS_DIR))
 
 $(NAME) : $(OBJS)
 	$(CC) $(OBJS) -o $@
-
-$(OBJS_DIR)/%.o : %.c
-	@echo "compiling $<"
-	@$(CC) -c $< -o $@
 
 bonus : all
 
