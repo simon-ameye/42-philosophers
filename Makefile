@@ -4,9 +4,9 @@ INC = philo.h
 SRCS += philo.c
 SRCS += philo_utils1.c
 SRCS += philo_data.c
-SRCS += philo_init.c
-SRCS += philo_utils2.c
-SRCS += philo_utils3.c
+SRCS += philo_threads.c
+SRCS += philo_time.c
+SRCS += philo_print.c
 
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
@@ -23,8 +23,6 @@ $(NAME) : $(OBJS)
 $(OBJS_DIR)/%.o : %.c
 	@echo "compiling $<"
 	@$(CC) -c $< -o $@
-
-bonus : all
 
 clean:
 	rm -rf $(OBJS)

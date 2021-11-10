@@ -6,13 +6,13 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/28 18:05:21 by sameye           ###   ########.fr       */
+/*   Updated: 2021/11/10 17:07:40 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo(void *philovoid)
+void	*ft_philothread(void *philovoid)
 {
 	t_philo	*philo;
 
@@ -37,41 +37,6 @@ void	*philo(void *philovoid)
 		ft_usleep(philo->data->titsle);
 	}
 	ft_unlock_forks(philo);
-	return (NULL);
-}
-
-void	*ft_deathcheck(void *philosvoid)
-{
-	t_philo	*p;
-	int		i;
-	int		eatsreached;
-
-	p = (t_philo *)philosvoid;
-	i = 0;
-	eatsreached = 1;
-	while (1)
-	{
-		if (ft_gettime() - (p[i]).lasteat > p[0].data->titdie)
-		{
-			p[1].data->philostop = 1;
-			ft_print_data(&(p[i]), "died", 1);
-			return (NULL);
-		}
-		if (!p[i].data->noeatss || p[i].nbeats < p[0].data->noeats)
-			eatsreached = 0;
-		if (i == p[0].data->nophil - 1)
-		{
-			if (eatsreached == 1)
-			{
-				p[0].data->philostop = 1;
-				return (NULL);
-			}
-			i = 0;
-			eatsreached = 1;
-		}
-		else
-			i++;
-	}
 	return (NULL);
 }
 

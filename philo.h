@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/10/28 17:21:46 by sameye           ###   ########.fr       */
+/*   Updated: 2021/11/10 17:07:22 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
 typedef struct s_data
 {
@@ -56,10 +56,8 @@ void ft_printtime(t_data *data);
 void ft_sleep(t_philo *philo);
 void ft_print_data(t_philo *philo, char *str, int bypass);
 long int ft_gettime(void);
-void *ft_deathcheck(void *philosvoid);
-void *philo(void *philovoid);
+void *ft_deaththread(void *philosvoid);
+void *ft_philothread(void *philovoid);
 void ft_unlock_forks(t_philo *philo);
-
-
 
 #endif
