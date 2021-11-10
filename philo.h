@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 17:07:22 by sameye           ###   ########.fr       */
+/*   Updated: 2021/11/10 19:00:24 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,26 @@ typedef struct s_philo
 	int				nbeats;
 }	t_philo;
 
-int	ft_atoi(const char *nptr);
-int	init_data(t_data *philo_data, int ac, char **av);
-int	check_data(int ac, char **av);
-int init_philos(t_data *data);
-void ft_putstr(char *s);
-void ft_usleep(long int pause);
-void ft_putnum(long n);
-void ft_printtime(t_data *data);
-void ft_sleep(t_philo *philo);
-void ft_print_data(t_philo *philo, char *str, int bypass);
-long int ft_gettime(void);
-void *ft_deaththread(void *philosvoid);
-void *ft_philothread(void *philovoid);
-void ft_unlock_forks(t_philo *philo);
+int			ft_philo(t_data *data);
+void		*ft_philothread(void *philovoid);
+int			ft_createphilos(t_philo *philos, t_data *data);
+void		ft_jointhreads(t_philo *philos, t_data *data);
+void		ft_destroymutex(t_data *data);
+t_philo		*ft_mallocphilos(t_data *data);
+int			ft_checkdeath(t_philo *p);
+int			ft_checkeats(t_philo *p, int i, int *eatsreached);
+void		*ft_checkthread(void *philosvoid);
+int			ft_atoi(const char *nptr);
+void		ft_putstr(char *s);
+long		ft_getlen(long n);
+long		ft_pow(long n);
+void		ft_putnum(long n);
+void		ft_unlock_forks(t_philo *philo);
+int			check_data(int ac, char **av);
+int			init_data(t_data *data, int ac, char **av);
+void		ft_printtime(t_data *data);
+long int	ft_gettime(void);
+void		ft_usleep(long int pause);
+void		ft_print_data(t_philo *philo, char *str, int bypass);
 
 #endif

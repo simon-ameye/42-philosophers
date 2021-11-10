@@ -7,6 +7,7 @@ SRCS += philo_data.c
 SRCS += philo_threads.c
 SRCS += philo_time.c
 SRCS += philo_print.c
+SRCS += philo_check.c
 
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))

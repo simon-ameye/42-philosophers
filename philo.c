@@ -6,50 +6,56 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 17:07:40 by sameye           ###   ########.fr       */
+/*   Updated: 2021/11/10 19:07:00 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*ft_philothread(void *philovoid)
+t_philo	*ft_mallocphilos(t_data *data)
 {
-	t_philo	*philo;
+	t_philo	*philos;
 
-	philo = (t_philo *)philovoid;
-	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->titeat / 10);
-	while (1)
+	philos = malloc(sizeof(t_philo) * data->nophil);
+	if (philos == NULL)
+		return (NULL);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nophil);
+	if (data->forks == NULL)
 	{
-		ft_print_data(philo, "is thinking", 0);
-		pthread_mutex_lock(philo->lfork);
-		ft_print_data(philo, "has taken a fork", 0);
-		pthread_mutex_lock(philo->rfork);
-		ft_print_data(philo, "has taken a fork", 0);
-		if (philo->data->philostop)
-			break ;
-		ft_print_data(philo, "is eating", 0);
-		ft_usleep(philo->data->titeat);
-		ft_unlock_forks(philo);
-		philo->lasteat = ft_gettime();
-		(philo->nbeats)++;
-		ft_print_data(philo, "is sleeping", 0);
-		ft_usleep(philo->data->titsle);
+		free (philos);
+		return (NULL);
 	}
-	ft_unlock_forks(philo);
-	return (NULL);
+	return (philos);
+}
+
+int	ft_philo(t_data *data)
+{
+	t_philo		*philos;
+	pthread_t	deaththread;
+
+	philos = ft_mallocphilos(data);
+	if (philos == NULL)
+		return (EXIT_FAILURE);
+	ft_createphilos(philos, data);
+	pthread_create(&deaththread, NULL, ft_checkthread, philos);
+	ft_jointhreads(philos, data);
+	pthread_join(deaththread, NULL);
+	ft_destroymutex(data);
+	free (philos);
+	free (data->forks);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av)
 {
 	t_data	data;
-	
+
 	if (ac == 5 || ac == 6)
 	{
 		if (check_data(ac, av) == EXIT_FAILURE)
 			return (0);
 		init_data(&data, ac, av);
-		if (init_philos(&data) == EXIT_FAILURE)
+		if (ft_philo(&data) == EXIT_FAILURE)
 			return (0);
 	}
 }

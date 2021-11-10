@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 10:58:29 by sameye           ###   ########.fr       */
+/*   Updated: 2021/11/10 19:05:09 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	ft_atoi(const char *nptr)
 	return (res * sign);
 }
 
-void ft_putstr(char *s)
+void	ft_putstr(char *s)
 {
-	int i;
+	int	i;
 
 	if (s == NULL)
 		return ;
@@ -52,9 +52,9 @@ void ft_putstr(char *s)
 	}
 }
 
-long ft_getlen(long n)
+long	ft_getlen(long n)
 {
-	long len;
+	long	len;
 
 	if (n == 0)
 		return (1);
@@ -67,10 +67,10 @@ long ft_getlen(long n)
 	return (len);
 }
 
-long ft_pow(long n)
+long	ft_pow(long n)
 {
-	long i;
-	long res;
+	long	i;
+	long	res;
 
 	res = 1;
 	i = 0;
@@ -82,11 +82,11 @@ long ft_pow(long n)
 	return (res);
 }
 
-void ft_putnum(long n)
+void	ft_putnum(long n)
 {
-	long len;
-	char c;
-	
+	long	len;
+	char	c;
+
 	len = ft_getlen(n);
 	while (len > 0)
 	{
@@ -94,10 +94,4 @@ void ft_putnum(long n)
 		write(1, &c, 1);
 		len--;
 	}
-}
-
-void ft_unlock_forks(t_philo *philo)
-{
-		pthread_mutex_unlock(philo->rfork);
-		pthread_mutex_unlock(philo->lfork);
 }
