@@ -11,12 +11,12 @@ SRCS += philo_check.c
 
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
-CC = gcc -Wall -Wextra -Werror
+CC = gcc -Wall -Wextra -Werror -pthread
 
 all : $(OBJS_DIR) $(NAME)
 
-$(OBJS_DIR)/ :
-	$(shell mkdir -p $(OBJS_DIR))
+$(OBJS_DIR):
+	mkdir -p $(OBJS_DIR)
 
 $(NAME) : $(OBJS)
 	$(CC) $(OBJS) -o $@
