@@ -1,36 +1,62 @@
-NAME = philo
-INC = philo.h
+################	COMPILER		#################
 
-SRCS += philo.c
-SRCS += philo_utils1.c
-SRCS += philo_data.c
-SRCS += philo_threads.c
-SRCS += philo_time.c
-SRCS += philo_print.c
-SRCS += philo_check.c
+CC			=		gcc -Wall -Wextra -Werror  -pthread
 
-OBJS_DIR = obj
-OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
-CC = gcc -Wall -Wextra -Werror -pthread
+################	DIRECTORIES		#################
 
-all : $(OBJS_DIR) $(NAME)
+SRCS_DIR	=		src
+
+OBJS_DIR	=		obj
+
+INCLUDE_DIR	=		include
+
+#################	HEADER FILES	#################
+
+INCLUDE		=		-I include
+
+#################	SOURCE FILES	#################
+
+SRCS 		= 		philo.c \
+					philo_utils1.c \
+					philo_data.c \
+					philo_threads.c \
+					philo_time.c \
+					philo_print.c \
+					philo_check.c
+
+SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
+
+#################	OBJECT FILES	#################
+
+OBJS		=		$(addsuffix .o, $(basename $(SRCS)))
+OBJECTS		=		$(addprefix $(OBJS_DIR)/,$(OBJS))
+
+################	BINARIES		#################
+
+NAME		=		philo
+
+################	TARGETS			#################
+
+all:				$(NAME)
 
 $(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
+					mkdir -p $@
 
-$(NAME) : $(OBJS)
-	$(CC) $(OBJS) -o $@
+$(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+					@$(CC) $(INCLUDE) -c $< -o $@
 
-$(OBJS_DIR)/%.o : %.c
-	@echo "compiling $<"
-	@$(CC) -c $< -o $@
+$(NAME):			$(OBJS_DIR) $(OBJECTS)
+					@echo Building $@...
+					@$(CC) $(INCLUDE) $(OBJECTS) -o $(NAME)
 
 clean:
-	rm -rf $(OBJS)
+					@echo Cleaning $@ objects...
+					@rm -f $(OBJECTS)
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:				clean
+					@echo Cleaning $@ binary...
+					@rm -f $(NAME)
 
-re: fclean all
+re:					fclean all
 
-.PHONY: all clean fclean re
+.PHONY:				all clean fclean re
