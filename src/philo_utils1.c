@@ -82,6 +82,18 @@ long	ft_pow(long n)
 	return (res);
 }
 
+void	print_stamps(long len)
+{
+	int i;
+
+	i = 0;
+	while (i <= 7 - len)
+	{
+		write(1, ".", 1);
+		i++;
+	}
+}
+
 void	ft_putnum(long n)
 {
 	long	len;
@@ -94,4 +106,13 @@ void	ft_putnum(long n)
 		write(1, &c, 1);
 		len--;
 	}
+}
+
+void	ft_putstamp(long n)
+{
+	long	len;
+
+	len = ft_getlen(n);
+	print_stamps(len);
+	ft_putnum(n);
 }

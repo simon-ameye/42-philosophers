@@ -15,7 +15,10 @@
 void	ft_print_data(t_philo *philo, char *str, int bypass)
 {
 	if (philo->data->philostop == 1 && bypass == 0)
+	{
+		//fprintf(stderr, "philo %i tried to print but was bypassed. passing : %s\n", philo->index, str);
 		return ;
+	}
 	pthread_mutex_lock(&(philo->data->printmutex));
 	if (philo->data->philostop == 1 && bypass == 0)
 	{

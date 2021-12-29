@@ -1,6 +1,6 @@
 ################	COMPILER		#################
 
-CC			=		gcc -Wall -Wextra -Werror  -pthread
+CC			=		gcc -Wall -Wextra -Werror -pthread
 
 ################	DIRECTORIES		#################
 

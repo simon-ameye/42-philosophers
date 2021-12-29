@@ -19,7 +19,7 @@ void	ft_printtime(t_data *data)
 
 	actual_time = ft_gettime();
 	elapsed_time = actual_time - data->starti;
-	ft_putnum(elapsed_time);
+	ft_putstamp(elapsed_time);
 }
 
 long int	ft_gettime(void)

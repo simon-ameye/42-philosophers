@@ -19,14 +19,35 @@ t_philo	*ft_mallocphilos(t_data *data)
 	philos = malloc(sizeof(t_philo) * data->nophil);
 	if (philos == NULL)
 		return (NULL);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nophil);
-	if (data->forks == NULL)
-	{
-		free (philos);
-		return (NULL);
-	}
 	return (philos);
 }
+
+static void ft_initmutex(t_philo *philos, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i <= data->nophil - 1)
+	{
+		pthread_mutex_init(&(philos[i].lfork), NULL);
+		i++;
+	}
+	pthread_mutex_init(&data->printmutex, NULL);
+}
+
+static void	ft_destroymutex(t_philo *philos, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i <= data->nophil - 1)
+	{
+		pthread_mutex_destroy(&(philos[i].lfork));
+		i++;
+	}
+	pthread_mutex_destroy(&data->printmutex);
+}
+
 
 int	ft_philo(t_data *data)
 {
@@ -36,13 +57,13 @@ int	ft_philo(t_data *data)
 	philos = ft_mallocphilos(data);
 	if (philos == NULL)
 		return (EXIT_FAILURE);
+	ft_initmutex(philos, data);
 	ft_createphilos(philos, data);
 	pthread_create(&deaththread, NULL, ft_checkthread, philos);
 	ft_jointhreads(philos, data);
 	pthread_join(deaththread, NULL);
-	ft_destroymutex(data);
+	ft_destroymutex(philos, data);
 	free (philos);
-	free (data->forks);
 	return (EXIT_SUCCESS);
 }
 

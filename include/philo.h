@@ -31,13 +31,13 @@ typedef struct s_data
 	long int		starti;
 	int				philostop;
 	pthread_mutex_t	printmutex;
-	pthread_mutex_t	*forks;
+	//pthread_mutex_t	*forks;
 }	t_data;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
-	pthread_mutex_t	*lfork;
+	pthread_mutex_t	lfork;
 	pthread_mutex_t	*rfork;
 	int				index;
 	t_data			*data;
@@ -49,7 +49,6 @@ int			ft_philo(t_data *data);
 void		*ft_philothread(void *philovoid);
 int			ft_createphilos(t_philo *philos, t_data *data);
 void		ft_jointhreads(t_philo *philos, t_data *data);
-void		ft_destroymutex(t_data *data);
 t_philo		*ft_mallocphilos(t_data *data);
 int			ft_checkdeath(t_philo *p);
 int			ft_checkeats(t_philo *p, int i, int *eatsreached);
@@ -66,5 +65,6 @@ void		ft_printtime(t_data *data);
 long int	ft_gettime(void);
 void		ft_usleep(long int pause);
 void		ft_print_data(t_philo *philo, char *str, int bypass);
+void	ft_putstamp(long n);
 
 #endif
