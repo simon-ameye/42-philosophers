@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 19:07:33 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/03 11:22:51 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	*ft_philothread(void *philovoid)
 
 	//ft_usleep(1000);
 	philo = (t_philo *)philovoid;
+	if (&(philo->lfork) == philo->rfork)
+	{
+		ft_usleep(philo->data->titdie);
+		return (NULL);
+	}
 	if (philo->index % 2 == 0)
 		ft_usleep(philo->data->titeat / 10);
 	while (!philo->data->philostop)

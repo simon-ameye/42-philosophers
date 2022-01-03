@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 19:05:09 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/03 11:41:07 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,21 @@ int	ft_atoi(const char *nptr)
 	return (res * sign);
 }
 
-void	ft_putstr(char *s)
+static int	ft_strlen(char *s)
 {
-	int	i;
+	int i;
 
-	if (s == NULL)
-		return ;
 	i = 0;
 	while (s[i])
-	{
-		write(1, &s[i], 1);
 		i++;
-	}
+	return (i);
+}
+
+void	ft_putstr(char *s)
+{
+	if (s == NULL)
+		return ;
+	write(1, s, ft_strlen(s));
 }
 
 long	ft_getlen(long n)
