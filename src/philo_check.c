@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:47:52 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 18:55:27 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/04 17:46:01 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 int	ft_checkdeath(t_philo *p)
 {
-	if (ft_gettime() - p->lasteat > p->data->titdie)
+	long lasteat;
+
+	pthread_mutex_lock(&p->lasteatmutex);
+	lasteat = p->lasteat;
+	pthread_mutex_unlock(&p->lasteatmutex);
+	if (ft_gettime() - lasteat > p->data->titdie)
 	{
+		pthread_mutex_lock(&p->data->philostopmutex);
 		p->data->philostop = 1;
+		pthread_mutex_unlock(&p->data->philostopmutex);
 		ft_print_data(p, "died", 1);
 		return (1);
 	}
@@ -25,15 +32,22 @@ int	ft_checkdeath(t_philo *p)
 
 int	ft_checkeats(t_philo *p, int i, int *eatsreached)
 {
+	int nbeats;
+
 	if (p[i].data->noeatss)
 	{
-		if (p[i].nbeats < p[0].data->noeats)
+		pthread_mutex_lock(&(p->nbeatsmutex));
+		nbeats = p[i].nbeats;
+		pthread_mutex_unlock(&(p->nbeatsmutex));
+		if (nbeats < p[0].data->noeats)
 			*eatsreached = 0;
 		if (i == p[0].data->nophil - 1)
 		{
 			if (*eatsreached == 1)
 			{
+				pthread_mutex_lock(&(p->data->philostopmutex));
 				p[0].data->philostop = 1;
+				pthread_mutex_unlock(&(p->data->philostopmutex));
 				return (1);
 			}
 			*eatsreached = 1;
@@ -59,6 +73,7 @@ void	*ft_checkthread(void *philosvoid)
 			i = 0;
 		else
 			i++;
+		usleep(500);
 	}
 	return (NULL);
 }

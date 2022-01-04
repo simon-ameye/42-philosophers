@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2021/11/10 19:00:24 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/04 17:12:47 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	int				noeats;
 	int				noeatss;
 	long int		starti;
+	pthread_mutex_t	philostopmutex;
 	int				philostop;
 	pthread_mutex_t	printmutex;
 	//pthread_mutex_t	*forks;
@@ -41,7 +42,9 @@ typedef struct s_philo
 	pthread_mutex_t	*rfork;
 	int				index;
 	t_data			*data;
+	pthread_mutex_t	lasteatmutex;
 	long int		lasteat;
+	pthread_mutex_t	nbeatsmutex;
 	int				nbeats;
 }	t_philo;
 

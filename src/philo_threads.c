@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/03 11:22:51 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/04 17:53:13 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ static void ft_eat(t_philo *philo)
 	ft_usleep(philo->data->titeat);
 	pthread_mutex_unlock(philo->rfork);
 	pthread_mutex_unlock(&(philo->lfork));
+	pthread_mutex_lock(&(philo->lasteatmutex));
 	philo->lasteat = ft_gettime();
+	pthread_mutex_unlock(&(philo->lasteatmutex));
+	pthread_mutex_lock(&(philo->nbeatsmutex));
 	(philo->nbeats)++;
+	pthread_mutex_unlock(&(philo->nbeatsmutex));
 }
 
 static void ft_sleep(t_philo *philo)
@@ -40,6 +44,7 @@ static void ft_sleep(t_philo *philo)
 void	*ft_philothread(void *philovoid)
 {
 	t_philo	*philo;
+	int philostop;
 
 	//ft_usleep(1000);
 	philo = (t_philo *)philovoid;
@@ -49,12 +54,20 @@ void	*ft_philothread(void *philovoid)
 		return (NULL);
 	}
 	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->titeat / 10);
-	while (!philo->data->philostop)
+		usleep(100);
+	//	ft_usleep(philo->data->titeat / 10);
+	
+	pthread_mutex_lock(&(philo->data->philostopmutex));
+	philostop = philo->data->philostop;
+	pthread_mutex_unlock(&(philo->data->philostopmutex));
+	while (!philostop)
 	{
 		ft_think(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
+		pthread_mutex_lock(&(philo->data->philostopmutex));
+		philostop = philo->data->philostop;
+		pthread_mutex_unlock(&(philo->data->philostopmutex));
 	}
 	return (NULL);
 }
