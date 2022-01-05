@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/04 16:39:50 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 14:59:57 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	print_stamps(long len)
 	int i;
 
 	i = 0;
-	while (i <= 7 - len)
+	while (i <= 10 - len)
 	{
 		write(1, "0", 1);
 		i++;

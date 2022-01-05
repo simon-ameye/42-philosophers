@@ -6,21 +6,11 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/04 17:37:41 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 14:52:32 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-t_philo	*ft_mallocphilos(t_data *data)
-{
-	t_philo	*philos;
-
-	philos = malloc(sizeof(t_philo) * data->nophil);
-	if (philos == NULL)
-		return (NULL);
-	return (philos);
-}
 
 static void ft_initmutex(t_philo *philos, t_data *data)
 {
@@ -34,7 +24,8 @@ static void ft_initmutex(t_philo *philos, t_data *data)
 		pthread_mutex_init(&(philos[i].nbeatsmutex), NULL);
 		i++;
 	}
-	pthread_mutex_init(&data->printmutex, NULL);
+	pthread_mutex_init(&(data->printmutex), NULL);
+	pthread_mutex_init(&data->philostopmutex, NULL);
 }
 
 static void	ft_destroymutex(t_philo *philos, t_data *data)
@@ -49,7 +40,8 @@ static void	ft_destroymutex(t_philo *philos, t_data *data)
 		pthread_mutex_destroy(&(philos[i].nbeatsmutex));
 		i++;
 	}
-	pthread_mutex_destroy(&data->printmutex);
+	pthread_mutex_destroy(&(data->printmutex));
+	pthread_mutex_destroy(&(data->philostopmutex));
 }
 
 
@@ -58,7 +50,7 @@ int	ft_philo(t_data *data)
 	t_philo		*philos;
 	pthread_t	deaththread;
 
-	philos = ft_mallocphilos(data);
+	philos = malloc(sizeof(t_philo) * data->nophil);
 	if (philos == NULL)
 		return (EXIT_FAILURE);
 	ft_initmutex(philos, data);
@@ -78,9 +70,10 @@ int	main(int ac, char **av)
 	if (ac == 5 || ac == 6)
 	{
 		if (check_data(ac, av) == EXIT_FAILURE)
-			return (0);
+			return (EXIT_FAILURE);
 		init_data(&data, ac, av);
 		if (ft_philo(&data) == EXIT_FAILURE)
-			return (0);
+			return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }

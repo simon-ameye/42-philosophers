@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:47:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/04 17:46:01 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 14:44:40 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	ft_checkeats(t_philo *p, int i, int *eatsreached)
 
 	if (p[i].data->noeatss)
 	{
-		pthread_mutex_lock(&(p->nbeatsmutex));
+		pthread_mutex_lock(&(p[i].nbeatsmutex));
 		nbeats = p[i].nbeats;
-		pthread_mutex_unlock(&(p->nbeatsmutex));
+		pthread_mutex_unlock(&(p[i].nbeatsmutex));
 		if (nbeats < p[0].data->noeats)
 			*eatsreached = 0;
 		if (i == p[0].data->nophil - 1)
 		{
 			if (*eatsreached == 1)
 			{
-				pthread_mutex_lock(&(p->data->philostopmutex));
+				pthread_mutex_lock(&(p[0].data->philostopmutex));
 				p[0].data->philostop = 1;
-				pthread_mutex_unlock(&(p->data->philostopmutex));
+				pthread_mutex_unlock(&(p[0].data->philostopmutex));
 				return (1);
 			}
 			*eatsreached = 1;

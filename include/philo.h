@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/04 17:12:47 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 14:51:39 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int			ft_philo(t_data *data);
 void		*ft_philothread(void *philovoid);
 int			ft_createphilos(t_philo *philos, t_data *data);
 void		ft_jointhreads(t_philo *philos, t_data *data);
-t_philo		*ft_mallocphilos(t_data *data);
 int			ft_checkdeath(t_philo *p);
 int			ft_checkeats(t_philo *p, int i, int *eatsreached);
 void		*ft_checkthread(void *philosvoid);
