@@ -16,14 +16,7 @@ INCLUDE		=		-I include
 
 #################	SOURCE FILES	#################
 
-SRCS 		= 		philo.c \
-					philo_utils1.c \
-					philo_data.c \
-					philo_threads.c \
-					philo_time.c \
-					philo_print.c \
-					philo_check.c
-
+SRCS		= 		philo.c  philo_check.c  philo_data.c  philo_eat.c  philo_mutex.c  philo_print.c  philo_think.c  philo_thread.c  philo_time.c  philo_utils_1.c  philo_utils_2.c
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 
 #################	OBJECT FILES	#################
@@ -39,15 +32,15 @@ NAME		=		philo
 
 all:				$(NAME)
 
+$(NAME):			$(OBJS_DIR) $(OBJECTS)
+					@echo Building $@...
+					@$(CC) $(INCLUDE) $(OBJECTS) -o $(NAME)
+
 $(OBJS_DIR):
 					mkdir -p $@
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 					@$(CC) $(INCLUDE) -c $< -o $@
-
-$(NAME):			$(OBJS_DIR) $(OBJECTS)
-					@echo Building $@...
-					@$(CC) $(INCLUDE) $(OBJECTS) -o $(NAME)
 
 clean:
 					@echo Cleaning $@ objects...

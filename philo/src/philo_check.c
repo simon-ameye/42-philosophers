@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 18:47:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 18:01:19 by sameye           ###   ########.fr       */
+/*   Created: 2022/01/05 19:03:49 by sameye            #+#    #+#             */
+/*   Updated: 2022/01/05 19:20:10 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_checkdeath(t_philo *p)
+static int	ft_checkdeath(t_philo *p)
 {
-	long lasteat;
+	long	lasteat;
 
 	pthread_mutex_lock(&p->lasteatmutex);
 	lasteat = p->lasteat;
@@ -30,9 +30,9 @@ int	ft_checkdeath(t_philo *p)
 	return (0);
 }
 
-int	ft_checkeats(t_philo *p, int i, int *eatsreached)
+static int	ft_checkeats(t_philo *p, int i, int *eatsreached)
 {
-	int nbeats;
+	int	nbeats;
 
 	if (p[i].data->noeatss)
 	{

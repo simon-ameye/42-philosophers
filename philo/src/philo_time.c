@@ -5,23 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 13:11:39 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 19:00:25 by sameye           ###   ########.fr       */
+/*   Created: 2022/01/05 19:10:11 by sameye            #+#    #+#             */
+/*   Updated: 2022/01/05 19:27:04 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ft_printtime(t_data *data)
-{
-	long int	actual_time;
-	long int	elapsed_time;
-
-	actual_time = ft_gettime();
-	elapsed_time = actual_time - data->starti;
-	ft_putnum(elapsed_time);
-	//ft_putnum(elapsed_time);
-}
 
 long int	ft_gettime(void)
 {
@@ -41,7 +30,16 @@ void	ft_usleep(long int pause)
 	while (current_time - start_time < pause)
 	{
 		current_time = ft_gettime();
-		//usleep(pause / 10);
 		usleep(100);
 	}
+}
+
+void	ft_printtime(t_data *data)
+{
+	long int	actual_time;
+	long int	elapsed_time;
+
+	actual_time = ft_gettime();
+	elapsed_time = actual_time - data->starti;
+	ft_putnum(elapsed_time);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 13:10:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 15:03:38 by sameye           ###   ########.fr       */
+/*   Created: 2022/01/05 19:03:32 by sameye            #+#    #+#             */
+/*   Updated: 2022/01/05 19:28:31 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_print_data(t_philo *philo, char *str, int bypass)
 {
-	int philostop;
+	int	philostop;
 
 	pthread_mutex_lock(&(philo->data->printmutex));
 	pthread_mutex_lock(&philo->data->philostopmutex);
