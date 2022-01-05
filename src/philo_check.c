@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:47:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 14:44:40 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 18:01:19 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ void	*ft_checkthread(void *philosvoid)
 		if (ft_checkdeath(p) || ft_checkeats(p, i, &eatsreached))
 			return (NULL);
 		if (i == p[0].data->nophil - 1)
+		{
 			i = 0;
+			usleep(500);
+		}
 		else
 			i++;
-		usleep(500);
 	}
 	return (NULL);
 }

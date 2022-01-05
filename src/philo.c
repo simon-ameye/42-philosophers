@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:40 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 14:52:32 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 15:38:40 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void ft_initmutex(t_philo *philos, t_data *data)
 		pthread_mutex_init(&(philos[i].lfork), NULL);
 		pthread_mutex_init(&(philos[i].lasteatmutex), NULL);
 		pthread_mutex_init(&(philos[i].nbeatsmutex), NULL);
+		pthread_mutex_init(&(philos[i].stopsigmutex), NULL);
 		i++;
 	}
 	pthread_mutex_init(&(data->printmutex), NULL);
@@ -38,6 +39,7 @@ static void	ft_destroymutex(t_philo *philos, t_data *data)
 		pthread_mutex_destroy(&(philos[i].lfork));
 		pthread_mutex_destroy(&(philos[i].lasteatmutex));
 		pthread_mutex_destroy(&(philos[i].nbeatsmutex));
+		pthread_mutex_destroy(&(philos[i].stopsigmutex));
 		i++;
 	}
 	pthread_mutex_destroy(&(data->printmutex));

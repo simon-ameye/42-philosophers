@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 13:11:39 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/04 16:39:38 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 19:00:25 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_printtime(t_data *data)
 
 	actual_time = ft_gettime();
 	elapsed_time = actual_time - data->starti;
-	ft_putstamp(elapsed_time);
+	ft_putnum(elapsed_time);
 	//ft_putnum(elapsed_time);
 }
 

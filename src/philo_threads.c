@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:47:40 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 13:58:53 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 18:36:32 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void ft_think_even(t_philo *philo)
 {
-	ft_print_data(philo, "is thinking", 0);
 	pthread_mutex_lock(&(philo->lfork));
 	ft_print_data(philo, "has taken a fork", 0);
 	pthread_mutex_lock(philo->rfork);
@@ -23,7 +22,6 @@ static void ft_think_even(t_philo *philo)
 
 static void ft_think_odd(t_philo *philo)
 {
-	ft_print_data(philo, "is thinking", 0);
 	pthread_mutex_lock(philo->rfork);
 	ft_print_data(philo, "has taken a fork", 0);
 	pthread_mutex_lock(&(philo->lfork));
@@ -32,34 +30,19 @@ static void ft_think_odd(t_philo *philo)
 
 static void ft_eat_even(t_philo *philo)
 {
-	ft_print_data(philo, "is eating", 0);
-	ft_usleep(philo->data->titeat);
 	pthread_mutex_unlock(philo->rfork);
 	pthread_mutex_unlock(&(philo->lfork));
-	pthread_mutex_lock(&(philo->lasteatmutex));
-	philo->lasteat = ft_gettime();
-	pthread_mutex_unlock(&(philo->lasteatmutex));
-	pthread_mutex_lock(&(philo->nbeatsmutex));
-	(philo->nbeats)++;
-	pthread_mutex_unlock(&(philo->nbeatsmutex));
 }
 
 static void ft_eat_odd(t_philo *philo)
 {
-	ft_print_data(philo, "is eating", 0);
-	ft_usleep(philo->data->titeat);
 	pthread_mutex_unlock(&(philo->lfork));
 	pthread_mutex_unlock(philo->rfork);
-	pthread_mutex_lock(&(philo->lasteatmutex));
-	philo->lasteat = ft_gettime();
-	pthread_mutex_unlock(&(philo->lasteatmutex));
-	pthread_mutex_lock(&(philo->nbeatsmutex));
-	(philo->nbeats)++;
-	pthread_mutex_unlock(&(philo->nbeatsmutex));
 }
 
 static void ft_think(t_philo *philo)
 {
+	ft_print_data(philo, "is thinking", 0);
 	if (philo->index % 2)
 		ft_think_even(philo);
 	else 
@@ -68,16 +51,40 @@ static void ft_think(t_philo *philo)
 
 static void ft_eat(t_philo *philo)
 {
+	int philostop;
+
+	pthread_mutex_lock(&(philo->data->philostopmutex));
+	philostop = philo->data->philostop;
+	pthread_mutex_unlock(&(philo->data->philostopmutex));
+	if (!philostop)
+	{
+		ft_print_data(philo, "is eating", 0);
+		ft_usleep(philo->data->titeat);
+	}
 	if (philo->index % 2)
 		ft_eat_even(philo);
 	else 
 		ft_eat_odd(philo);
+	pthread_mutex_lock(&(philo->lasteatmutex));
+	philo->lasteat = ft_gettime();
+	pthread_mutex_unlock(&(philo->lasteatmutex));
+	pthread_mutex_lock(&(philo->nbeatsmutex));
+	(philo->nbeats)++;
+	pthread_mutex_unlock(&(philo->nbeatsmutex));
 }
 
 static void ft_sleep(t_philo *philo)
 {
-	ft_print_data(philo, "is sleeping", 0);
-	ft_usleep(philo->data->titsle);
+	int philostop;
+
+	pthread_mutex_lock(&(philo->data->philostopmutex));
+	philostop = philo->data->philostop;
+	pthread_mutex_unlock(&(philo->data->philostopmutex));
+	if (!philostop)
+	{
+		ft_print_data(philo, "is sleeping", 0);
+		ft_usleep(philo->data->titsle);
+	}
 }
 
 void	*ft_philothread(void *philovoid)
@@ -85,7 +92,6 @@ void	*ft_philothread(void *philovoid)
 	t_philo	*philo;
 	int philostop;
 
-	//ft_usleep(1000);
 	philo = (t_philo *)philovoid;
 	if (&(philo->lfork) == philo->rfork)
 	{
@@ -93,8 +99,7 @@ void	*ft_philothread(void *philovoid)
 		return (NULL);
 	}
 	if (philo->index % 2 == 0)
-		usleep(100);
-		//ft_usleep(philo->data->titeat / 10);
+		usleep(500);
 	
 	while (1)
 	{
@@ -125,7 +130,6 @@ int	ft_createphilos(t_philo *philos, t_data *data)
 		else
 			philos[i].rfork = &(philos[i + 1].lfork);
 		philos[i].lasteat = data->starti;
-		//fprintf(stderr, "philo %i lfork %p rfork %p\n", philos[i].index, &(philos[i].lfork), philos[i].rfork);
 		pthread_create(&(philos[i].thread), NULL,
 			ft_philothread, (&(philos[i])));
 		i++;
@@ -141,7 +145,6 @@ void	ft_jointhreads(t_philo *philos, t_data *data)
 	while (i <= data->nophil - 1)
 	{
 		pthread_join((philos[i].thread), NULL);
-		//fprintf(stderr, "philo %i returned\n", philos[i].index);
 		i++;
 	}
 }

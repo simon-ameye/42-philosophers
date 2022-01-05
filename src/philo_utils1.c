@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 12:17:51 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 14:59:57 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 19:00:41 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,6 @@ long	ft_pow(long n)
 	return (res);
 }
 
-void	print_stamps(long len)
-{
-	int i;
-
-	i = 0;
-	while (i <= 10 - len)
-	{
-		write(1, "0", 1);
-		i++;
-	}
-}
-
 void	ft_putnum(long n)
 {
 	long	len;
@@ -109,13 +97,4 @@ void	ft_putnum(long n)
 		write(1, &c, 1);
 		len--;
 	}
-}
-
-void	ft_putstamp(long n)
-{
-	long	len;
-
-	len = ft_getlen(n);
-	print_stamps(len);
-	ft_putnum(n);
 }

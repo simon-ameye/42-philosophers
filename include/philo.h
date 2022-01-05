@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:12:48 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 14:51:39 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 15:22:35 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef struct s_philo
 	pthread_mutex_t	lasteatmutex;
 	long int		lasteat;
 	pthread_mutex_t	nbeatsmutex;
+	int				stopsig;
+	pthread_mutex_t	stopsigmutex;
+
 	int				nbeats;
 }	t_philo;
 

@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 13:10:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 13:35:14 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 15:03:38 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@ void	ft_print_data(t_philo *philo, char *str, int bypass)
 {
 	int philostop;
 
-	/*
-	if (philo->data->philostop == 1 && bypass == 0)
-	{
-		//fprintf(stderr, "philo %i tried to print but was bypassed. passing : %s\n", philo->index, str);
-		return ;
-	}
-	*/
 	pthread_mutex_lock(&(philo->data->printmutex));
 	pthread_mutex_lock(&philo->data->philostopmutex);
 	philostop = philo->data->philostop;
