@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:03:52 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 19:16:28 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 20:28:15 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ int	init_data(t_data *data, int ac, char **av)
 	}
 	data->starti = ft_gettime();
 	data->philostop = 0;
+	if (data->nophil <= 0 || data->noeats < 0)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

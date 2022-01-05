@@ -6,7 +6,7 @@
 /*   By: sameye <sameye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:04:44 by sameye            #+#    #+#             */
-/*   Updated: 2022/01/05 19:12:42 by sameye           ###   ########.fr       */
+/*   Updated: 2022/01/05 20:25:45 by sameye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(int ac, char **av)
 	{
 		if (check_data(ac, av) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		init_data(&data, ac, av);
+		if (init_data(&data, ac, av))
+			return (EXIT_FAILURE);
 		if (ft_philo(&data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
